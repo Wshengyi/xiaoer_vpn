@@ -1,0 +1,38 @@
+version: '3.9'
+services:
+  frontend:
+    build: ./frontend
+    container_name: xiaoer_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=https://vpn.firstdemo.cn/api
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    container_name: xiaoer_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_NAME=xiaoer_vpn_api
+      - APP_ENV=production
+      - DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/xiaoer_vpn
+      - CORS_ORIGINS=https://vpn.firstdemo.cn,http://localhost:3000
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16-alpine
+    container_name: xiaoer_db
+    restart: always
+    environment:
+      - POSTGRES_DB=xiaoer_vpn
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
