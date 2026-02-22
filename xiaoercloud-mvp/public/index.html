@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小二Clould - MVP</title>
+  <style>body{font-family:Arial,sans-serif;max-width:900px;margin:30px auto;padding:0 16px} .card{border:1px solid #ddd;padding:16px;border-radius:8px;margin:12px 0} .btn{padding:8px 12px;background:#111;color:#fff;border-radius:6px;text-decoration:none;display:inline-block}</style>
+</head>
+<body>
+  <h1>小二Clould</h1>
+  <p>MVP 版本（本地运行）</p>
+
+  <div class="card">
+    <h3>套餐</h3>
+    <ul id="plans"></ul>
+  </div>
+
+  <div class="card">
+    <h3>登录</h3>
+    <p>演示账号：demo@xiaoercloud.local / 123456</p>
+    <a class="btn" href="/login.html">去登录</a>
+  </div>
+
+  <script>
+    fetch('/api/plans').then(r=>r.json()).then(plans=>{
+      const el=document.getElementById('plans');
+      plans.forEach(p=>{
+        const li=document.createElement('li');
+        li.textContent=`${p.name}：¥${p.price}/${p.cycle}，${p.trafficGb}GB 流量`;
+        el.appendChild(li);
+      })
+    })
+  </script>
+</body>
+</html>

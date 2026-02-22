@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>用户中心 - 小二Clould</title></head>
+<body style="font-family:Arial;max-width:920px;margin:30px auto;">
+  <h2>用户中心</h2>
+  <div id="base"></div>
+  <div id="sub" style="border:1px solid #ddd;padding:12px;border-radius:8px"></div>
+  <p><a href="/subscription.html">查看订阅链接（Clash / Shadowrocket）</a></p>
+  <script>
+    const u = JSON.parse(localStorage.getItem('xiaoer_user')||'null');
+    if(!u) location.href='/login.html';
+    document.getElementById('base').textContent = `你好，${u.name}（${u.email}）`;
+    fetch('/api/me/subscription',{headers:{'x-user-id':u.id}}).then(r=>r.json()).then(s=>{
+      document.getElementById('sub').innerHTML = `
+        <h3>${s.plan.name}</h3>
+        <p>状态：${s.status}</p>
+        <p>下次扣费：${s.nextBillingDate}</p>
+        <p>流量：${s.remaining.toFixed(2)}GB / ${s.total.toFixed(2)}GB（已用 ${s.used.toFixed(2)}GB）</p>
+      `;
+    });
+  </script>
+</body>
+</html>

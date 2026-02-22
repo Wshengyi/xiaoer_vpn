@@ -1,0 +1,32 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "demo@xiaoercloud.local",
+      "password": "123456",
+      "name": "Demo用户"
+    }
+  ],
+  "plans": [
+    {
+      "id": 1,
+      "name": "月付15",
+      "price": 15,
+      "cycle": "月",
+      "trafficGb": 250
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": 1,
+      "userId": 1,
+      "planId": 1,
+      "status": "有效",
+      "nextBillingDate": "2026-03-22",
+      "usedUploadGb": 0,
+      "usedDownloadGb": 0,
+      "clashUrl": "https://example.local/sub/clash/demo-token",
+      "shadowrocketUrl": "https://example.local/sub/shadowrocket/demo-token"
+    }
+  ]
+}

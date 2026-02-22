@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>订阅链接 - 小二Clould</title></head>
+<body style="font-family:Arial;max-width:900px;margin:30px auto;">
+  <h2>订阅链接中心</h2>
+  <div id="box" style="border:1px solid #ddd;padding:12px;border-radius:8px"></div>
+  <p><a href="/dashboard.html">返回用户中心</a></p>
+  <script>
+    const u = JSON.parse(localStorage.getItem('xiaoer_user')||'null');
+    if(!u) location.href='/login.html';
+
+    function row(name, url){
+      return `<p><b>${name}：</b><br/><code>${url}</code><br/><button onclick="navigator.clipboard.writeText('${url}')">复制链接</button></p>`;
+    }
+
+    fetch('/api/me/subscription',{headers:{'x-user-id':u.id}}).then(r=>r.json()).then(s=>{
+      document.getElementById('box').innerHTML = `
+        <p>套餐：${s.plan.name}（¥${s.plan.price}/${s.plan.cycle}）</p>
+        ${row('Clash 订阅', s.clashUrl)}
+        ${row('Shadowrocket 订阅', s.shadowrocketUrl)}
+      `;
+    });
+  </script>
+</body>
+</html>

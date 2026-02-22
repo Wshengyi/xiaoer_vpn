@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>登录 - 小二Clould</title></head>
+<body style="font-family:Arial;max-width:520px;margin:40px auto;">
+  <h2>用户登录</h2>
+  <input id="email" placeholder="邮箱" style="width:100%;padding:8px;margin:6px 0" value="demo@xiaoercloud.local" />
+  <input id="password" type="password" placeholder="密码" style="width:100%;padding:8px;margin:6px 0" value="123456" />
+  <button id="login" style="padding:8px 12px">登录</button>
+  <p id="msg"></p>
+  <script>
+    document.getElementById('login').onclick=async()=>{
+      const email=document.getElementById('email').value;
+      const password=document.getElementById('password').value;
+      const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+      const data=await r.json();
+      if(!r.ok){document.getElementById('msg').textContent=data.error||'登录失败';return;}
+      localStorage.setItem('xiaoer_user',JSON.stringify(data));
+      location.href='/dashboard.html';
+    }
+  </script>
+</body>
+</html>
