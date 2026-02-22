@@ -48,5 +48,5 @@ app.get('/api/me/subscription', auth, (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`小二Clould MVP running: http://localhost:${PORT}`);
+  console.log(`小二Cloud MVP running: http://localhost:${PORT}`);
 });
