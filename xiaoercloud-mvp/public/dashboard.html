@@ -1,22 +1,45 @@
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>用户中心 - 小二Cloud</title></head>
-<body style="font-family:Arial;max-width:920px;margin:30px auto;">
-  <h2>用户中心</h2>
-  <div id="base"></div>
-  <div id="sub" style="border:1px solid #ddd;padding:12px;border-radius:8px"></div>
-  <p><a href="/subscription.html">查看订阅链接（Clash / Shadowrocket）</a></p>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>用户中心 - 小二Cloud</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="logo">小二Cloud · 用户中心</div>
+      <div class="actions">
+        <a class="btn ghost" href="/subscription.html">订阅链接</a>
+        <a class="btn ghost" href="/" onclick="localStorage.removeItem('xiaoer_user')">退出</a>
+      </div>
+    </div>
+
+    <div id="base" class="notice"></div>
+
+    <section class="grid" style="margin-top:10px">
+      <div class="card plan"><div class="label">订阅状态</div><div id="status" class="stat ok">-</div></div>
+      <div class="card plan"><div class="label">下次扣费</div><div id="billing" class="stat">-</div></div>
+      <div class="card panel">
+        <h3>流量概览</h3>
+        <div class="kv"><span>套餐</span><strong id="plan">-</strong></div>
+        <div class="kv"><span>剩余流量</span><strong id="remain">-</strong></div>
+        <div class="kv"><span>已用流量</span><strong id="used">-</strong></div>
+      </div>
+    </section>
+  </div>
+
   <script>
     const u = JSON.parse(localStorage.getItem('xiaoer_user')||'null');
     if(!u) location.href='/login.html';
     document.getElementById('base').textContent = `你好，${u.name}（${u.email}）`;
     fetch('/api/me/subscription',{headers:{'x-user-id':u.id}}).then(r=>r.json()).then(s=>{
-      document.getElementById('sub').innerHTML = `
-        <h3>${s.plan.name}</h3>
-        <p>状态：${s.status}</p>
-        <p>下次扣费：${s.nextBillingDate}</p>
-        <p>流量：${s.remaining.toFixed(2)}GB / ${s.total.toFixed(2)}GB（已用 ${s.used.toFixed(2)}GB）</p>
-      `;
+      document.getElementById('status').textContent=s.status;
+      document.getElementById('billing').textContent=s.nextBillingDate;
+      document.getElementById('plan').textContent=`${s.plan.name}（¥${s.plan.price}/${s.plan.cycle}）`;
+      document.getElementById('remain').textContent=`${s.remaining.toFixed(2)}GB / ${s.total.toFixed(2)}GB`;
+      document.getElementById('used').textContent=`${s.used.toFixed(2)}GB`;
     });
   </script>
 </body>

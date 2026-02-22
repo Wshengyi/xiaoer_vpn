@@ -1,12 +1,27 @@
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>登录 - 小二Cloud</title></head>
-<body style="font-family:Arial;max-width:520px;margin:40px auto;">
-  <h2>用户登录</h2>
-  <input id="email" placeholder="邮箱" style="width:100%;padding:8px;margin:6px 0" value="demo@xiaoercloud.local" />
-  <input id="password" type="password" placeholder="密码" style="width:100%;padding:8px;margin:6px 0" value="123456" />
-  <button id="login" style="padding:8px 12px">登录</button>
-  <p id="msg"></p>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>登录 - 小二Cloud</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container" style="max-width:560px">
+    <div class="nav"><div class="logo">小二Cloud</div><a class="badge" href="/">返回首页</a></div>
+    <div class="card">
+      <h2>用户登录</h2>
+      <p class="notice">演示账号：demo@xiaoercloud.local / 123456</p>
+      <label class="label">邮箱</label>
+      <input id="email" class="input" value="demo@xiaoercloud.local" />
+      <label class="label">密码</label>
+      <input id="password" class="input" type="password" value="123456" />
+      <div class="actions" style="margin-top:8px">
+        <button id="login" class="btn">登录</button>
+      </div>
+      <p id="msg" class="notice"></p>
+    </div>
+  </div>
   <script>
     document.getElementById('login').onclick=async()=>{
       const email=document.getElementById('email').value;

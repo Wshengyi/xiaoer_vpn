@@ -1,21 +1,38 @@
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>订阅链接 - 小二Cloud</title></head>
-<body style="font-family:Arial;max-width:900px;margin:30px auto;">
-  <h2>订阅链接中心</h2>
-  <div id="box" style="border:1px solid #ddd;padding:12px;border-radius:8px"></div>
-  <p><a href="/dashboard.html">返回用户中心</a></p>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>订阅链接 - 小二Cloud</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="logo">小二Cloud · 订阅链接中心</div>
+      <a class="btn ghost" href="/dashboard.html">返回用户中心</a>
+    </div>
+
+    <div id="box" class="card"></div>
+  </div>
+
   <script>
     const u = JSON.parse(localStorage.getItem('xiaoer_user')||'null');
     if(!u) location.href='/login.html';
 
     function row(name, url){
-      return `<p><b>${name}：</b><br/><code>${url}</code><br/><button onclick="navigator.clipboard.writeText('${url}')">复制链接</button></p>`;
+      return `
+        <div class="card" style="margin:10px 0">
+          <div class="label">${name}</div>
+          <code class="code">${url}</code>
+          <button class="btn" onclick="navigator.clipboard.writeText('${url}')">复制链接</button>
+        </div>
+      `;
     }
 
     fetch('/api/me/subscription',{headers:{'x-user-id':u.id}}).then(r=>r.json()).then(s=>{
       document.getElementById('box').innerHTML = `
-        <p>套餐：${s.plan.name}（¥${s.plan.price}/${s.plan.cycle}）</p>
+        <p class="notice">套餐：${s.plan.name}（¥${s.plan.price}/${s.plan.cycle}）</p>
         ${row('Clash 订阅', s.clashUrl)}
         ${row('Shadowrocket 订阅', s.shadowrocketUrl)}
       `;

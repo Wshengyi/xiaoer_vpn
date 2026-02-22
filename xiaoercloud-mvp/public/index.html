@@ -4,32 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>小二Cloud - MVP</title>
-  <style>body{font-family:Arial,sans-serif;max-width:900px;margin:30px auto;padding:0 16px} .card{border:1px solid #ddd;padding:16px;border-radius:8px;margin:12px 0} .btn{padding:8px 12px;background:#111;color:#fff;border-radius:6px;text-decoration:none;display:inline-block}</style>
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <h1>小二Cloud</h1>
-  <p>MVP 版本（本地运行）</p>
+  <div class="container">
+    <div class="nav">
+      <div class="logo">小二Cloud</div>
+      <div class="badge">MVP · Local</div>
+    </div>
 
-  <div class="card">
-    <h3>套餐</h3>
-    <ul id="plans"></ul>
+    <section class="hero">
+      <h1>快，触手可及</h1>
+      <p class="sub">本地 MVP 版本：先支持 Clash / Shadowrocket 订阅交付。目标是先跑通“登录 → 订阅信息 → 订阅链接复制”这条核心链路。</p>
+    </section>
+
+    <section class="grid">
+      <div class="card plan">
+        <h3>月付15</h3>
+        <div class="kv"><span>价格</span><strong>¥15 / 月</strong></div>
+        <div class="kv"><span>月流量</span><strong>250GB</strong></div>
+        <div class="kv"><span>支持客户端</span><strong>Clash / Shadowrocket</strong></div>
+      </div>
+
+      <div class="card plan">
+        <h3>立即体验</h3>
+        <p class="notice">演示账号：demo@xiaoercloud.local / 123456</p>
+        <div class="actions">
+          <a class="btn" href="/login.html">进入用户中心</a>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer">© 小二Cloud MVP</p>
   </div>
-
-  <div class="card">
-    <h3>登录</h3>
-    <p>演示账号：demo@xiaoercloud.local / 123456</p>
-    <a class="btn" href="/login.html">去登录</a>
-  </div>
-
-  <script>
-    fetch('/api/plans').then(r=>r.json()).then(plans=>{
-      const el=document.getElementById('plans');
-      plans.forEach(p=>{
-        const li=document.createElement('li');
-        li.textContent=`${p.name}：¥${p.price}/${p.cycle}，${p.trafficGb}GB 流量`;
-        el.appendChild(li);
-      })
-    })
-  </script>
 </body>
 </html>
