@@ -16,7 +16,10 @@
                 <form method="POST" action="{{ route('logout') }}">@csrf<button class="btn ghost" type="submit">退出</button></form>
             </div>
         @else
-            <a class="btn ghost" href="{{ route('login') }}">登录</a>
+            <div class="actions">
+                <a class="btn ghost" href="{{ route('login') }}">登录</a>
+                <a class="btn ghost" href="{{ route('register') }}">注册</a>
+            </div>
         @endauth
     </div>
 

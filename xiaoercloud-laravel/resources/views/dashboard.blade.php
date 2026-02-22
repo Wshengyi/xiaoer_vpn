@@ -1,7 +1,15 @@
 @extends('layouts.app', ['title' => '用户中心 - 小二Cloud'])
 
 @section('content')
-<div class="topbar"><div class="logo">用户中心</div><a class="btn ghost" href="{{ route('subscription') }}">订阅链接中心</a></div>
+<div class="topbar">
+    <div class="logo">用户中心</div>
+    <div class="actions">
+        <a class="btn ghost" href="{{ route('subscription') }}">订阅链接中心</a>
+        @if(auth()->user()?->is_admin)
+            <a class="btn ghost" href="{{ route('admin.index') }}">管理后台</a>
+        @endif
+    </div>
+</div>
 
 @if(!$subscription)
     <div class="card">暂无订阅数据。</div>

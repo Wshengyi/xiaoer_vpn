@@ -14,7 +14,7 @@ class MvpSeeder extends Seeder
     {
         $user = User::query()->updateOrCreate(
             ['email' => 'demo@xiaoercloud.local'],
-            ['name' => 'Demo用户', 'password' => Hash::make('123456')]
+            ['name' => 'Demo用户', 'password' => Hash::make('123456'), 'is_admin' => true]
         );
 
         $plan = Plan::query()->updateOrCreate(
