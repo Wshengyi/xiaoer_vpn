@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/subscription', [DashboardController::class, 'subscriptionLinks'])->name('subscription');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::get('/checkout/{plan}', [OrderController::class, 'checkout'])->name('orders.checkout');
+    Route::post('/checkout/{plan}', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{order}/pay', [OrderController::class, 'pay'])->name('orders.pay');
 
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::post('/admin/plans', [AdminController::class, 'storePlan'])->name('admin.plans.store');

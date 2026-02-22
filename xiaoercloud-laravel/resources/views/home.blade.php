@@ -13,6 +13,13 @@
             <div class="kv"><span>价格</span><strong>¥{{ $plan->price }}/{{ $plan->cycle }}</strong></div>
             <div class="kv"><span>流量</span><strong>{{ $plan->traffic_gb }}GB</strong></div>
             <div class="kv"><span>客户端</span><strong>Clash / Shadowrocket</strong></div>
+            <div style="margin-top:10px">
+                @auth
+                    <a class="btn" href="{{ route('orders.checkout', $plan) }}">立即下单</a>
+                @else
+                    <a class="btn" href="{{ route('login') }}">登录后购买</a>
+                @endauth
+            </div>
         </div>
     @endforeach
 

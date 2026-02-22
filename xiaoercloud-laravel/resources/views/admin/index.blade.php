@@ -48,5 +48,17 @@
             </div>
         @endforeach
     </div>
+
+    <div class="card panel">
+        <h3>最近订单（v0.3）</h3>
+        @forelse($orders as $o)
+            <div class="kv">
+                <span>{{ $o->order_no }} · {{ $o->user->email }} · {{ $o->plan->name }}</span>
+                <strong>¥{{ number_format($o->amount,2) }} / {{ $o->status }}</strong>
+            </div>
+        @empty
+            <p class="notice">暂无订单</p>
+        @endforelse
+    </div>
 </section>
 @endsection

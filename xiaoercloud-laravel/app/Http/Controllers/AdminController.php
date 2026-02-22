@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\User;
@@ -22,8 +23,9 @@ class AdminController extends Controller
         $plans = Plan::query()->latest('id')->get();
         $users = User::query()->latest('id')->get();
         $subscriptions = Subscription::query()->with(['user', 'plan'])->latest('id')->get();
+        $orders = Order::query()->with(['user', 'plan'])->latest('id')->limit(20)->get();
 
-        return view('admin.index', compact('plans', 'users', 'subscriptions'));
+        return view('admin.index', compact('plans', 'users', 'subscriptions', 'orders'));
     }
 
     public function storePlan(Request $request)
