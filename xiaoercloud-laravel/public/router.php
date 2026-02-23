@@ -10,10 +10,22 @@
 // +----------------------------------------------------------------------
 // $Id$
 
-if (is_file($_SERVER["DOCUMENT_ROOT"] . $_SERVER["SCRIPT_NAME"])) {
-    return false;
-} else {
-    $_SERVER["SCRIPT_FILENAME"] = __DIR__ . '/index.php';
+$uri = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
-    require __DIR__ . "/index.php";
+// 1) 静态文件直接返回
+if ($uri !== '/' && is_file(__DIR__ . $uri)) {
+    return false;
 }
+
+// 2) 兼容 /adminEntry.php/xxx 这种“入口文件 + PATH_INFO”写法
+if (preg_match('#^/([^/]+\.php)(/.*)?$#', $uri, $m) && is_file(__DIR__ . '/' . $m[1])) {
+    $_SERVER['SCRIPT_NAME'] = '/' . $m[1];
+    $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/' . $m[1];
+    $_SERVER['PATH_INFO'] = $m[2] ?? '';
+    require __DIR__ . '/' . $m[1];
+    return true;
+}
+
+// 3) 默认走前台入口
+$_SERVER["SCRIPT_FILENAME"] = __DIR__ . '/index.php';
+require __DIR__ . "/index.php";
