@@ -65,8 +65,38 @@ class User extends Backend
     {
         if ($this->request->isPost()) {
             $this->token();
+            $params = $this->request->post('row/a');
+            if (!$params) {
+                $this->error(__('Parameter %s can not be empty', 'row'));
+            }
+
+            $username = $params['username'] ?? '';
+            $password = $params['password'] ?? '';
+            $email = $params['email'] ?? '';
+            $mobile = $params['mobile'] ?? '';
+            $nickname = $params['nickname'] ?? $username;
+            $groupId = isset($params['group_id']) ? (int)$params['group_id'] : 1;
+            $status = $params['status'] ?? 'normal';
+
+            if (!$username || !$password) {
+                $this->error('用户名和密码不能为空');
+            }
+
+            $ret = Auth::instance()->register($username, $password, $email, $mobile, [
+                'nickname' => $nickname,
+                'group_id' => $groupId,
+                'status' => $status,
+            ]);
+
+            if (!$ret) {
+                $this->error(Auth::instance()->getError() ?: '添加失败');
+            }
+
+            $this->success();
         }
-        return parent::add();
+
+        $this->view->assign('groupList', build_select('row[group_id]', \app\admin\model\UserGroup::column('id,name'), 1, ['class' => 'form-control selectpicker']));
+        return $this->view->fetch();
     }
 
     /**
