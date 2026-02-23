@@ -8,6 +8,7 @@ use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -43,6 +44,29 @@ class AdminController extends Controller
         return back();
     }
 
+    public function updatePlan(Request $request, Plan $plan)
+    {
+        $this->ensureAdmin();
+
+        $data = $request->validate([
+            'name' => 'required|string|max:100',
+            'price' => 'required|numeric|min:0',
+            'cycle' => 'required|string|max:20',
+            'traffic_gb' => 'required|integer|min:1',
+            'active' => 'nullable|boolean',
+        ]);
+
+        $plan->update($data + ['active' => (bool)($data['active'] ?? false)]);
+        return back();
+    }
+
+    public function deletePlan(Plan $plan)
+    {
+        $this->ensureAdmin();
+        $plan->delete();
+        return back();
+    }
+
     public function storeSubscription(Request $request)
     {
         $this->ensureAdmin();
@@ -64,6 +88,26 @@ class AdminController extends Controller
         return back();
     }
 
+    public function updateSubscription(Request $request, Subscription $subscription)
+    {
+        $this->ensureAdmin();
+
+        $data = $request->validate([
+            'status' => 'required|string|max:20',
+            'next_billing_date' => 'nullable|date',
+        ]);
+
+        $subscription->update($data);
+        return back();
+    }
+
+    public function deleteSubscription(Subscription $subscription)
+    {
+        $this->ensureAdmin();
+        $subscription->delete();
+        return back();
+    }
+
     public function resetToken(Subscription $subscription)
     {
         $this->ensureAdmin();
@@ -76,4 +120,43 @@ class AdminController extends Controller
 
         return back();
     }
+
+    public function updateOrderStatus(Request $request, Order $order)
+    {
+        $this->ensureAdmin();
+
+        $data = $request->validate([
+            'status' => 'required|in:待支付,已支付,已取消',
+        ]);
+
+        $order->update([
+            'status' => $data['status'],
+            'paid_at' => $data['status'] === '已支付' ? now() : null,
+        ]);
+
+        if ($data['status'] === '已支付') {
+            $exists = Subscription::query()
+                ->where('user_id', $order->user_id)
+                ->where('plan_id', $order->plan_id)
+                ->whereDate('created_at', now()->toDateString())
+                ->exists();
+
+            if (!$exists) {
+                $token = strtolower(Str::random(16));
+                Subscription::query()->create([
+                    'user_id' => $order->user_id,
+                    'plan_id' => $order->plan_id,
+                    'status' => '有效',
+                    'next_billing_date' => now()->addMonth()->toDateString(),
+                    'used_upload_gb' => 0,
+                    'used_download_gb' => 0,
+                    'clash_url' => "https://example.local/sub/clash/{$token}",
+                    'shadowrocket_url' => "https://example.local/sub/shadowrocket/{$token}",
+                ]);
+            }
+        }
+
+        return back();
+    }
 }
+

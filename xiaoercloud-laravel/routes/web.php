@@ -28,6 +28,13 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::post('/admin/plans', [AdminController::class, 'storePlan'])->name('admin.plans.store');
+    Route::put('/admin/plans/{plan}', [AdminController::class, 'updatePlan'])->name('admin.plans.update');
+    Route::delete('/admin/plans/{plan}', [AdminController::class, 'deletePlan'])->name('admin.plans.delete');
+
     Route::post('/admin/subscriptions', [AdminController::class, 'storeSubscription'])->name('admin.subscriptions.store');
+    Route::put('/admin/subscriptions/{subscription}', [AdminController::class, 'updateSubscription'])->name('admin.subscriptions.update');
+    Route::delete('/admin/subscriptions/{subscription}', [AdminController::class, 'deleteSubscription'])->name('admin.subscriptions.delete');
     Route::post('/admin/subscriptions/{subscription}/reset-token', [AdminController::class, 'resetToken'])->name('admin.subscriptions.resetToken');
+
+    Route::put('/admin/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('admin.orders.updateStatus');
 });

@@ -37,24 +37,65 @@
     </div>
 
     <div class="card panel">
-        <h3>订阅列表（可重置 Token）</h3>
+        <h3>套餐管理</h3>
+        @foreach($plans as $p)
+            <form class="card" style="margin-bottom:8px" method="POST" action="{{ route('admin.plans.update', $p) }}">
+                @csrf @method('PUT')
+                <div class="grid" style="grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:8px;align-items:center;">
+                    <input class="input" name="name" value="{{ $p->name }}">
+                    <input class="input" name="price" type="number" step="0.01" value="{{ $p->price }}">
+                    <input class="input" name="cycle" value="{{ $p->cycle }}">
+                    <input class="input" name="traffic_gb" type="number" value="{{ $p->traffic_gb }}">
+                    <label class="label"><input type="checkbox" name="active" value="1" {{ $p->active ? 'checked' : '' }}> 启用</label>
+                </div>
+                <div class="actions" style="margin-top:8px">
+                    <button class="btn ghost" type="submit">保存</button>
+                </div>
+            </form>
+            <form method="POST" action="{{ route('admin.plans.delete', $p) }}" onsubmit="return confirm('确定删除该套餐？');">
+                @csrf @method('DELETE')
+                <button class="btn ghost" type="submit">删除套餐 #{{ $p->id }}</button>
+            </form>
+        @endforeach
+    </div>
+
+    <div class="card panel">
+        <h3>订阅管理（状态/续费日/重置Token/删除）</h3>
         @foreach($subscriptions as $s)
             <div class="card" style="margin-bottom:8px">
-                <div class="kv"><span>#{{ $s->id }} {{ $s->user->email }}</span><strong>{{ $s->plan->name }} / {{ $s->status }}</strong></div>
-                <form method="POST" action="{{ route('admin.subscriptions.resetToken', $s) }}" style="margin-top:8px">
-                    @csrf
-                    <button class="btn ghost" type="submit">重置订阅Token</button>
+                <div class="kv"><span>#{{ $s->id }} {{ $s->user->email }}</span><strong>{{ $s->plan->name }}</strong></div>
+                <form method="POST" action="{{ route('admin.subscriptions.update', $s) }}" class="actions" style="margin-top:8px">
+                    @csrf @method('PUT')
+                    <select class="input" style="max-width:160px" name="status">
+                        @foreach(['有效','已暂停','已终止','已取消'] as $st)
+                            <option value="{{ $st }}" {{ $s->status === $st ? 'selected' : '' }}>{{ $st }}</option>
+                        @endforeach
+                    </select>
+                    <input class="input" style="max-width:220px" type="date" name="next_billing_date" value="{{ optional($s->next_billing_date)->toDateString() }}">
+                    <button class="btn ghost" type="submit">保存</button>
                 </form>
+                <div class="actions" style="margin-top:8px">
+                    <form method="POST" action="{{ route('admin.subscriptions.resetToken', $s) }}">@csrf<button class="btn ghost" type="submit">重置订阅Token</button></form>
+                    <form method="POST" action="{{ route('admin.subscriptions.delete', $s) }}" onsubmit="return confirm('确定删除该订阅？');">@csrf @method('DELETE')<button class="btn ghost" type="submit">删除订阅</button></form>
+                </div>
             </div>
         @endforeach
     </div>
 
     <div class="card panel">
-        <h3>最近订单（v0.3）</h3>
+        <h3>订单管理（最近20条）</h3>
         @forelse($orders as $o)
-            <div class="kv">
-                <span>{{ $o->order_no }} · {{ $o->user->email }} · {{ $o->plan->name }}</span>
-                <strong>¥{{ number_format($o->amount,2) }} / {{ $o->status }}</strong>
+            <div class="card" style="margin-bottom:8px">
+                <div class="kv"><span>{{ $o->order_no }} · {{ $o->user->email }} · {{ $o->plan->name }}</span><strong>¥{{ number_format($o->amount,2) }}</strong></div>
+                <form method="POST" action="{{ route('admin.orders.updateStatus', $o) }}" class="actions" style="margin-top:8px">
+                    @csrf @method('PUT')
+                    <select class="input" style="max-width:180px" name="status">
+                        @foreach(['待支付','已支付','已取消'] as $st)
+                            <option value="{{ $st }}" {{ $o->status === $st ? 'selected' : '' }}>{{ $st }}</option>
+                        @endforeach
+                    </select>
+                    <button class="btn ghost" type="submit">更新状态</button>
+                </form>
             </div>
         @empty
             <p class="notice">暂无订单</p>
