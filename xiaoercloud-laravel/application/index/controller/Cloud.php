@@ -27,6 +27,7 @@ class Cloud extends Frontend
             $plans = Db::name('plan')->where('status', 'normal')->order('id asc')->select();
         }
         $this->view->assign('plans', $plans);
+        $this->view->assign('isLogin', $this->auth && $this->auth->id ? 1 : 0);
         return $this->view->fetch();
     }
 

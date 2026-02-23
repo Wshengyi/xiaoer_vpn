@@ -12,7 +12,7 @@
     <div class="card hero text-center">
         <h1>小二Cloud</h1>
         <p class="muted">MVP · Clash / Shadowrocket 订阅交付</p>
-        {if isset($user) && $user.id}
+        {if $isLogin}
         <a class="btn btn-primary" href="{:url('index/cloud/dashboard')}">进入用户中心</a>
         {else /}
         <a class="btn btn-primary" href="{:url('index/user/login')}?url={:urlencode(url('index/cloud/dashboard', '', false, true))}">登录</a>
@@ -27,7 +27,7 @@
                 <h3>{$p.name}</h3>
                 <p>价格：<b>¥{$p.price}/{$p.cycle}</b></p>
                 <p>流量：<b>{$p.traffic_gb}GB</b></p>
-                {if $Think.session.user}
+                {if $isLogin}
                 <a class="btn btn-success" href="{:url('index/cloud/checkout',['id'=>$p.id])}">立即下单</a>
                 {else /}
                 <a class="btn btn-success" href="{:url('index/user/login')}?url={:urlencode(url('index/cloud/checkout',['id'=>$p.id],false,true))}">登录后购买</a>
