@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>确认下单 - 小二Cloud</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>body{background:#f5f7fb}.wrap{max-width:860px;margin:25px auto}.card{background:#fff;border:1px solid #e8ecf3;border-radius:10px;padding:18px}</style>
+</head><body>
+<div class="wrap container-fluid">
+    <div class="card">
+        <h3>确认下单</h3>
+        <p>套餐：<b>{$plan.name}</b></p>
+        <p>价格：<b>¥{$plan.price}/{$plan.cycle}</b></p>
+        <p>流量：<b>{$plan.traffic_gb}GB</b></p>
+        <form method="post" action="">
+            <button class="btn btn-primary" type="submit">提交订单</button>
+            <a class="btn btn-default" href="{:url('index/cloud/index')}">取消</a>
+        </form>
+    </div>
+</div>
+</body></html>
