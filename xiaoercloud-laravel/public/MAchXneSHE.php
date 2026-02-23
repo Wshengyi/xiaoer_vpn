@@ -12,6 +12,8 @@
 // [ 后台入口文件 ]
 // 使用此文件可以达到隐藏admin模块的效果
 // 为了你的安全，强烈不建议将此文件名修改成admin.php
+// PHP8.5兼容：忽略旧框架触发的 deprecated 级别告警
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 // 定义应用目录
 define('APP_PATH', __DIR__ . '/../application/');
 
