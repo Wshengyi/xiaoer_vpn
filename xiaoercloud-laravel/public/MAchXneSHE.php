@@ -32,8 +32,8 @@ require __DIR__ . '/../thinkphp/base.php';
 // 关闭路由
 \think\App::route(false);
 
-// 设置根url
-\think\Url::root('');
+// 设置根url，避免后台资源/跳转丢失入口文件导致“模块不存在:dashboard”
+\think\Url::root('/MAchXneSHE.php');
 
 // 执行应用
 \think\App::run()->send();

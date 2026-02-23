@@ -17,11 +17,27 @@ if ($uri !== '/' && is_file(__DIR__ . $uri)) {
     return false;
 }
 
+// 1.1) 防止缺失静态资源被错误路由到前台首页
+if (strpos($uri, '/assets/') === 0 && !is_file(__DIR__ . $uri)) {
+    http_response_code(404);
+    echo 'Asset not found: ' . $uri;
+    return true;
+}
+
 // 2) 后台短路由：/bbc => /MAchXneSHE.php
 if ($uri === '/bbc' || strpos($uri, '/bbc/') === 0) {
     $_SERVER['SCRIPT_NAME'] = '/MAchXneSHE.php';
     $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/MAchXneSHE.php';
     $_SERVER['PATH_INFO'] = $uri === '/bbc' ? '' : substr($uri, 4);
+    require __DIR__ . '/MAchXneSHE.php';
+    return true;
+}
+
+// 2.1) 兼容后台常见直连路径，避免“模块不存在:dashboard”
+if (preg_match('#^/(dashboard|ajax)(/.*)?$#', $uri, $m)) {
+    $_SERVER['SCRIPT_NAME'] = '/MAchXneSHE.php';
+    $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/MAchXneSHE.php';
+    $_SERVER['PATH_INFO'] = '/' . $m[1] . ($m[2] ?? '');
     require __DIR__ . '/MAchXneSHE.php';
     return true;
 }
