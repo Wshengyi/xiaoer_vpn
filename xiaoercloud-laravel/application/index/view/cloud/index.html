@@ -5,37 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>小二Cloud</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>body{background:#f5f7fb}.wrap{max-width:1080px;margin:30px auto}.card{background:#fff;border:1px solid #e8ecf3;border-radius:10px;padding:18px;margin-bottom:16px}.hero{padding:30px}.muted{color:#7d8795}</style>
+    <style>
+        body{margin:0;background:#0b1222;color:#e8eefc;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif}
+        .nav{padding:18px 0;background:rgba(255,255,255,.02);border-bottom:1px solid rgba(255,255,255,.08)}
+        .brand{font-size:22px;font-weight:700;color:#fff}
+        .hero{padding:72px 0 56px;background:radial-gradient(900px 450px at 80% -10%, rgba(80,110,255,.35), transparent 55%),radial-gradient(800px 400px at -10% 10%, rgba(0,182,255,.18), transparent 50%)}
+        .hero h1{font-size:46px;font-weight:700;margin:0 0 12px}
+        .hero p{color:#a9b7d8;font-size:16px;line-height:1.8;max-width:760px}
+        .btn-main{background:linear-gradient(90deg,#7d9bff,#43d3ff);color:#08142b;border:none;padding:11px 20px;font-weight:700;border-radius:8px}
+        .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.25);color:#dfe8ff;padding:11px 20px;border-radius:8px}
+        .section{padding:56px 0}
+        .section h2{font-size:30px;margin-bottom:22px}
+        .cardx{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:18px;margin-bottom:14px;height:100%}
+        .muted{color:#a9b7d8}
+        .price{font-size:30px;font-weight:700;margin:6px 0}
+        .tag{display:inline-block;padding:2px 8px;border-radius:999px;background:rgba(67,211,255,.15);color:#84e8ff;font-size:12px;margin-left:8px}
+        .cta{background:linear-gradient(120deg, rgba(125,155,255,.18), rgba(67,211,255,.12));border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:28px;text-align:center}
+        .footer{padding:22px 0;color:#95a5ca;border-top:1px solid rgba(255,255,255,.08);margin-top:30px}
+        .list-unstyled li{margin:8px 0;color:#cbd8f6}
+    </style>
 </head>
 <body>
-<div class="wrap container-fluid">
-    <div class="card hero text-center">
-        <h1>小二Cloud</h1>
-        <p class="muted">MVP · Clash / Shadowrocket 订阅交付</p>
-        {if $isLogin}
-        <a class="btn btn-primary" href="{:url('index/cloud/dashboard')}">进入用户中心</a>
-        {else /}
-        <a class="btn btn-primary" href="{:url('index/user/login')}?url={:urlencode(url('index/cloud/dashboard', '', false, true))}">登录</a>
-        <a class="btn btn-default" href="{:url('index/user/register')}">注册</a>
-        {/if}
-    </div>
 
-    <div class="row">
-        {volist name="plans" id="p"}
-        <div class="col-sm-6">
-            <div class="card">
-                <h3>{$p.name}</h3>
-                <p>价格：<b>¥{$p.price}/{$p.cycle}</b></p>
-                <p>流量：<b>{$p.traffic_gb}GB</b></p>
+<div class="nav">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6"><span class="brand">小二Cloud</span></div>
+            <div class="col-sm-6 text-right">
                 {if $isLogin}
-                <a class="btn btn-success" href="{:url('index/cloud/checkout',['id'=>$p.id])}">立即下单</a>
+                <a class="btn btn-main" href="{:url('index/cloud/dashboard')}">进入用户中心</a>
                 {else /}
-                <a class="btn btn-success" href="{:url('index/user/login')}?url={:urlencode(url('index/cloud/checkout',['id'=>$p.id],false,true))}">登录后购买</a>
+                <a class="btn btn-main" href="{:url('index/user/login')}?url={:urlencode(url('index/cloud/dashboard', '', false, true))}">登录</a>
+                <a class="btn btn-ghost" href="{:url('index/user/register')}">注册</a>
                 {/if}
             </div>
         </div>
-        {/volist}
     </div>
 </div>
+
+<section class="hero">
+    <div class="container text-center">
+        <h1>快，触手可及</h1>
+        <p style="margin:0 auto 22px;">高速稳定的订阅服务，支持 Clash / Shadowrocket 一键交付。你关心体验，我们负责稳定与效率。</p>
+        {if $isLogin}
+        <a class="btn btn-main" href="{:url('index/cloud/dashboard')}">进入用户中心</a>
+        {else /}
+        <a class="btn btn-main" href="{:url('index/user/login')}?url={:urlencode(url('index/cloud/dashboard', '', false, true))}">立即开始</a>
+        {/if}
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="text-center">为什么选择小二Cloud</h2>
+        <div class="row">
+            <div class="col-sm-3"><div class="cardx"><h4>高速稳定</h4><p class="muted">精选线路，低延迟、低抖动，日常使用更顺畅。</p></div></div>
+            <div class="col-sm-3"><div class="cardx"><h4>多端支持</h4><p class="muted">支持 Clash / Shadowrocket，配置简单易上手。</p></div></div>
+            <div class="col-sm-3"><div class="cardx"><h4>交付明确</h4><p class="muted">下单后自动发放订阅链接，状态和流量可视化。</p></div></div>
+            <div class="col-sm-3"><div class="cardx"><h4>邀请制注册</h4><p class="muted">通过邀请码加入，减少滥用，提升整体服务质量。</p></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="padding-top:20px">
+    <div class="container">
+        <h2 class="text-center">套餐与价格</h2>
+        <div class="row">
+            {volist name="plans" id="p"}
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="cardx">
+                    <h3>{$p.name}<span class="tag">推荐</span></h3>
+                    <div class="price">¥{$p.price}<small style="font-size:14px;color:#9cb0dd">/{$p.cycle}</small></div>
+                    <ul class="list-unstyled">
+                        <li>✔ 每月流量：{$p.traffic_gb}GB</li>
+                        <li>✔ 客户端支持：Clash / Shadowrocket</li>
+                        <li>✔ 订阅链接可在用户中心查看</li>
+                    </ul>
+                    {if $isLogin}
+                    <a class="btn btn-main" href="{:url('index/cloud/checkout',['id'=>$p.id])}">立即下单</a>
+                    {else /}
+                    <a class="btn btn-main" href="{:url('index/user/login')}?url={:urlencode(url('index/cloud/checkout',['id'=>$p.id],false,true))}">登录后购买</a>
+                    {/if}
+                </div>
+            </div>
+            {/volist}
+        </div>
+    </div>
+</section>
+
+<section class="section" style="padding-top:10px;">
+    <div class="container">
+        <div class="cta">
+            <h3 style="margin-top:0">准备好开始了吗？</h3>
+            <p class="muted" style="margin-bottom:16px">从登录到下单到订阅交付，全流程可追踪、可管理。</p>
+            {if $isLogin}
+            <a class="btn btn-main" href="{:url('index/cloud/dashboard')}">进入用户中心</a>
+            {else /}
+            <a class="btn btn-main" href="{:url('index/user/login')}?url={:urlencode(url('index/cloud/dashboard', '', false, true))}">立即登录</a>
+            {/if}
+        </div>
+    </div>
+</section>
+
+<div class="footer">
+    <div class="container text-center">© 小二Cloud</div>
+</div>
+
 </body>
 </html>
