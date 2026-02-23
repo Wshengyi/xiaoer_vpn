@@ -1,0 +1,44 @@
+<div id="content-container" class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {include file="common/sidenav" /}
+        </div>
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2 class="page-header">邀请管理</h2>
+
+                    <form method="post" action="" style="margin-bottom: 15px;">
+                        {:token()}
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> 生成邀请码（30天有效）</button>
+                    </form>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>邀请码</th>
+                                <th>状态</th>
+                                <th>过期时间</th>
+                                <th>使用时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name='list' id='r'}
+                            <tr>
+                                <td>{$r.id}</td>
+                                <td><code>{$r.code}</code></td>
+                                <td>{$r.status}</td>
+                                <td>{if $r.expire_time}{:date('Y-m-d H:i',$r.expire_time)}{/if}</td>
+                                <td>{if $r.used_time}{:date('Y-m-d H:i',$r.used_time)}{/if}</td>
+                            </tr>
+                            {/volist}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
