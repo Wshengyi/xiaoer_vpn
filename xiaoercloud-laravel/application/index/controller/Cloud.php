@@ -127,19 +127,7 @@ class Cloud extends Frontend
                 'updatetime' => time(),
             ]);
 
-            $token = strtolower(substr(md5(uniqid('', true)), 0, 16));
-            Db::name('subscription')->insert([
-                'user_id' => $order['user_id'],
-                'plan_id' => $order['plan_id'],
-                'sub_status' => '有效',
-                'next_billing_date' => date('Y-m-d', strtotime('+30 day')),
-                'used_upload_gb' => 0,
-                'used_download_gb' => 0,
-                'clash_url' => 'https://example.local/sub/clash/' . $token,
-                'shadowrocket_url' => 'https://example.local/sub/shadowrocket/' . $token,
-                'createtime' => time(),
-                'updatetime' => time(),
-            ]);
+            \app\common\service\OrderFulfillment::fulfill((int)$order['id']);
         }
 
         $this->redirect(url('index/cloud/dashboard'));

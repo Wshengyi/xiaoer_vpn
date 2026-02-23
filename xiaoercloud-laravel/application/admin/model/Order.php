@@ -7,6 +7,15 @@ use think\Model;
 
 class Order extends Model
 {
+    protected static function init()
+    {
+        self::afterUpdate(function ($row) {
+            $changed = $row->getChangedData();
+            if (isset($changed['pay_status']) && $row['pay_status'] === '已支付') {
+                \app\common\service\OrderFulfillment::fulfill((int)$row['id']);
+            }
+        });
+    }
 
     
 
