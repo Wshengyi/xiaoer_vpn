@@ -17,7 +17,16 @@ if ($uri !== '/' && is_file(__DIR__ . $uri)) {
     return false;
 }
 
-// 2) 兼容 /adminEntry.php/xxx 这种“入口文件 + PATH_INFO”写法
+// 2) 后台短路由：/bbc => /MAchXneSHE.php
+if ($uri === '/bbc' || strpos($uri, '/bbc/') === 0) {
+    $_SERVER['SCRIPT_NAME'] = '/MAchXneSHE.php';
+    $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/MAchXneSHE.php';
+    $_SERVER['PATH_INFO'] = $uri === '/bbc' ? '' : substr($uri, 4);
+    require __DIR__ . '/MAchXneSHE.php';
+    return true;
+}
+
+// 3) 兼容 /adminEntry.php/xxx 这种“入口文件 + PATH_INFO”写法
 if (preg_match('#^/([^/]+\.php)(/.*)?$#', $uri, $m) && is_file(__DIR__ . '/' . $m[1])) {
     $_SERVER['SCRIPT_NAME'] = '/' . $m[1];
     $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/' . $m[1];
@@ -26,6 +35,6 @@ if (preg_match('#^/([^/]+\.php)(/.*)?$#', $uri, $m) && is_file(__DIR__ . '/' . $
     return true;
 }
 
-// 3) 默认走前台入口
+// 4) 默认走前台入口
 $_SERVER["SCRIPT_FILENAME"] = __DIR__ . '/index.php';
 require __DIR__ . "/index.php";
