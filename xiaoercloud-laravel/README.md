@@ -1,59 +1,93 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+FastAdmin是一款基于ThinkPHP+Bootstrap的极速后台开发框架。
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+## 主要特性
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* 基于`Auth`验证的权限管理系统
+    * 支持无限级父子级权限继承，父级的管理员可任意增删改子级管理员及权限设置
+    * 支持单管理员多角色
+    * 支持管理子级数据或个人数据
+* 强大的一键生成功能
+    * 一键生成CRUD,包括控制器、模型、视图、JS、语言包、菜单、回收站等
+    * 一键压缩打包JS和CSS文件，一键CDN静态资源部署
+    * 一键生成控制器菜单和规则
+    * 一键生成API接口文档
+* 完善的前端功能组件开发
+    * 基于`AdminLTE`二次开发
+    * 基于`Bootstrap`开发，自适应手机、平板、PC
+    * 基于`RequireJS`进行JS模块管理，按需加载
+    * 基于`Less`进行样式开发
+* 强大的插件扩展功能，在线安装卸载升级插件
+* 通用的会员模块和API模块
+* 共用同一账号体系的Web端会员中心权限验证和API接口会员权限验证
+* 二级域名部署支持，同时域名支持绑定到应用插件
+* 多语言支持，服务端及客户端支持
+* 支持大文件分片上传、剪切板粘贴上传、拖拽上传，进度条显示，图片上传前压缩
+* 支持表格固定列、固定表头、跨页选择、Excel导出、模板渲染等功能
+* 强大的第三方应用模块支持([CMS](https://www.fastadmin.net/store/cms.html)、[CRM](https://www.fastadmin.net/store/facrm.html)、[企业网站管理系统](https://www.fastadmin.net/store/ldcms.html)、[知识库文档系统](https://www.fastadmin.net/store/knowbase.html)、[在线投票系统](https://www.fastadmin.net/store/vote.html)、[B2C商城](https://www.fastadmin.net/store/shopro.html)、[B2B2C商城](https://www.fastadmin.net/store/wanlshop.html))
+* 整合第三方短信接口(阿里云、腾讯云短信)
+* 无缝整合第三方云存储(七牛云、阿里云OSS、腾讯云存储、又拍云)功能，支持云储存分片上传
+* 第三方富文本编辑器支持(Summernote、百度编辑器)
+* 第三方登录(QQ、微信、微博)整合
+* 第三方支付(微信、支付宝)无缝整合，微信支持PC端扫码支付
+* 丰富的插件应用市场
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 安装使用
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+https://doc.fastadmin.net
 
-## Learning Laravel
+## 在线演示
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+https://demo.fastadmin.net
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+用户名：admin
 
-## Laravel Sponsors
+密　码：123456
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+提　示：演示站数据无法进行修改，请下载源码安装体验全部功能
 
-### Premium Partners
+## 界面截图
+![控制台](https://images.gitee.com/uploads/images/2020/0929/202947_8db2d281_10933.gif "控制台")
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 问题反馈
 
-## Contributing
+在使用中有任何问题，请使用以下联系方式联系我们
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+问答社区: https://ask.fastadmin.net
 
-## Code of Conduct
+Github: https://github.com/fastadminnet/fastadmin
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Gitee: https://gitee.com/fastadminnet/fastadmin
 
-## Security Vulnerabilities
+## 特别鸣谢
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+感谢以下的项目,排名不分先后
 
-## License
+ThinkPHP：http://www.thinkphp.cn
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+AdminLTE：https://adminlte.io
+
+Bootstrap：http://getbootstrap.com
+
+jQuery：http://jquery.com
+
+Bootstrap-table：https://github.com/wenzhixin/bootstrap-table
+
+Nice-validator: https://validator.niceue.com
+
+SelectPage: https://github.com/TerryZ/SelectPage
+
+Layer: https://layuion.com/layer/
+
+DropzoneJS: https://www.dropzonejs.com
+
+
+## 版权信息
+
+FastAdmin遵循Apache2开源协议发布，并提供免费使用。
+
+本项目包含的第三方源码和二进制文件之版权信息另行标注。
+
+版权所有Copyright © 2017-2024 by FastAdmin (https://www.fastadmin.net)
+
+All rights reserved。

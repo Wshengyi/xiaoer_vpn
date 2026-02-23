@@ -1,20 +1,23 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
+// +----------------------------------------------------------------------
+// | ThinkPHP [ WE CAN DO IT JUST THINK ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2006-2016 http://thinkphp.cn All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: liu21st <liu21st@gmail.com>
+// +----------------------------------------------------------------------
+// [ 应用入口文件 ]
+// 定义应用目录
+define('APP_PATH', __DIR__ . '/../application/');
 
-define('LARAVEL_START', microtime(true));
-
-// Determine if the application is in maintenance mode...
-if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
-    require $maintenance;
+// 判断是否安装
+if (!is_file(APP_PATH . 'admin/command/Install/install.lock')) {
+    header("location:./install.php");
+    exit;
 }
 
-// Register the Composer autoloader...
-require __DIR__.'/../vendor/autoload.php';
-
-// Bootstrap Laravel and handle the request...
-/** @var Application $app */
-$app = require_once __DIR__.'/../bootstrap/app.php';
-
-$app->handleRequest(Request::capture());
+// 加载框架引导文件
+require __DIR__ . '/../thinkphp/start.php';
