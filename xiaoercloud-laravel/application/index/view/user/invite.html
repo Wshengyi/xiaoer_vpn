@@ -29,7 +29,17 @@
                             <tr>
                                 <td>{$r.id}</td>
                                 <td><code>{$r.code}</code></td>
-                                <td>{$r.status}</td>
+                                <td>
+                                    {if $r.status=='unused'}
+                                        <span class="label label-success">未使用</span>
+                                    {elseif $r.status=='used' /}
+                                        <span class="label label-default">已使用</span>
+                                    {elseif $r.status=='disabled' /}
+                                        <span class="label label-warning">已禁用</span>
+                                    {else /}
+                                        <span class="label label-info">{$r.status}</span>
+                                    {/if}
+                                </td>
                                 <td>{if $r.expire_time}{:date('Y-m-d H:i',$r.expire_time)}{/if}</td>
                                 <td>{if $r.used_time}{:date('Y-m-d H:i',$r.used_time)}{/if}</td>
                             </tr>
