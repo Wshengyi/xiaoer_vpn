@@ -70,6 +70,33 @@ class Cloud extends Frontend
         return $this->view->fetch();
     }
 
+    public function invite()
+    {
+        $this->auth->check() || $this->error('请先登录', url('user/login'));
+
+        if ($this->request->isPost()) {
+            $code = strtoupper(substr(md5($this->auth->id . microtime(true) . mt_rand(1000, 9999)), 0, 8));
+            Db::name('invite_code')->insert([
+                'code' => $code,
+                'inviter_user_id' => $this->auth->id,
+                'status' => 'unused',
+                'expire_time' => strtotime('+30 day'),
+                'createtime' => time(),
+                'updatetime' => time(),
+            ]);
+            $this->success('邀请码已生成：' . $code, url('index/cloud/invite'));
+        }
+
+        $list = Db::name('invite_code')
+            ->where('inviter_user_id', $this->auth->id)
+            ->order('id desc')
+            ->limit(20)
+            ->select();
+
+        $this->view->assign('list', $list);
+        return $this->view->fetch();
+    }
+
     public function checkout($id = null)
     {
         $this->auth->check() || $this->error('请先登录', url('user/login'));

@@ -35,6 +35,13 @@
                         <p class="help-block"></p>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="control-label required">邀请码</label>
+                    <div class="controls">
+                        <input type="text" id="invite_code" name="invite_code" data-rule="required;length(6~32)" class="form-control" placeholder="请输入邀请码">
+                        <p class="help-block">仅可通过邀请注册</p>
+                    </div>
+                </div>
 
                 <!--@CaptchaBegin-->
                 {if $captchaType}

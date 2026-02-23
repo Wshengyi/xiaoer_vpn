@@ -10,6 +10,7 @@ use app\common\model\Attachment;
 use fast\Random;
 use think\Config;
 use think\Cookie;
+use think\Db;
 use think\Hook;
 use think\Session;
 use think\Validate;
@@ -78,6 +79,7 @@ class User extends Frontend
             $password = $this->request->post('password', '', null);
             $email = $this->request->post('email');
             $mobile = $this->request->post('mobile', '');
+            $inviteCode = strtoupper(trim($this->request->post('invite_code', '')));
             $captcha = $this->request->post('captcha');
             $token = $this->request->post('__token__');
             $rule = [
@@ -85,6 +87,7 @@ class User extends Frontend
                 'password'  => 'require|length:6,30',
                 'email'     => 'require|email',
                 'mobile'    => 'regex:/^1\d{10}$/',
+                'invite_code' => 'require|alphaNum|length:6,32',
                 '__token__' => 'require|token',
             ];
 
@@ -95,6 +98,9 @@ class User extends Frontend
                 'password.length'  => 'Password must be 6 to 30 characters',
                 'email'            => 'Email is incorrect',
                 'mobile'           => 'Mobile is incorrect',
+                'invite_code.require' => 'Invite code can not be empty',
+                'invite_code.alphaNum' => 'Invite code format is incorrect',
+                'invite_code.length' => 'Invite code format is incorrect',
             ];
             if (Validate::regex($username, '/^1\d{10}$/')) {
                 $this->error(__('Username can not be mobile'));
@@ -104,6 +110,7 @@ class User extends Frontend
                 'password'  => $password,
                 'email'     => $email,
                 'mobile'    => $mobile,
+                'invite_code' => $inviteCode,
                 '__token__' => $token,
             ];
             //验证码
@@ -128,8 +135,28 @@ class User extends Frontend
             if (!$result) {
                 $this->error(__($validate->getError()), null, ['token' => $this->request->token()]);
             }
+            $invite = Db::name('invite_code')->where('code', $inviteCode)->lock(true)->find();
+            if (!$invite || $invite['status'] !== 'unused') {
+                $this->error('邀请码无效或已使用', null, ['token' => $this->request->token()]);
+            }
+            if (!empty($invite['expire_time']) && (int)$invite['expire_time'] < time()) {
+                $this->error('邀请码已过期', null, ['token' => $this->request->token()]);
+            }
+
             if ($this->auth->register($username, $password, $email, $mobile)) {
-                $this->auth->getUser()->save(['verification' => ['email' => $captchaType == 'email' ? 1 : 0, 'mobile' => $captchaType == 'mobile' ? 1 : 0]]);
+                $newUser = $this->auth->getUser();
+                $newUser->save([
+                    'verification' => ['email' => $captchaType == 'email' ? 1 : 0, 'mobile' => $captchaType == 'mobile' ? 1 : 0],
+                    'inviter_user_id' => $invite['inviter_user_id'],
+                ]);
+
+                Db::name('invite_code')->where('id', $invite['id'])->update([
+                    'status' => 'used',
+                    'used_by_user_id' => $newUser->id,
+                    'used_time' => time(),
+                    'updatetime' => time(),
+                ]);
+
                 $this->success(__('Sign up successful'), $url ?: url('user/index'));
             } else {
                 $this->error($this->auth->getError(), null, ['token' => $this->request->token()]);

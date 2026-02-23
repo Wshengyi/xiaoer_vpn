@@ -270,7 +270,7 @@ return [
         //是否开启前台会员中心
         'usercenter'            => true,
         //是否开启用户注册，不会影响使用手机号快捷注册登录
-        'user_register'         => false,
+        'user_register'         => true,
         //会员注册验证码类型,支持email/mobile/wechat/text/false
         'user_register_captcha' => 'text',
         //是否启用发送前验证码(用于短信和邮件发送)
