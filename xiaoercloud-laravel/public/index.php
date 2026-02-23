@@ -10,6 +10,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 // [ 应用入口文件 ]
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 // 定义应用目录
 define('APP_PATH', __DIR__ . '/../application/');
 
